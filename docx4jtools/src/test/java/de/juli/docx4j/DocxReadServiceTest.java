@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.juli.docx4j.service.ReadService;
 import de.juli.docx4j.service.services.docx.DocxReadService;
 import de.juli.docx4j.util.ExecProcess;
 import de.juli.docx4j.util.Executer;
@@ -30,7 +29,7 @@ public class DocxReadServiceTest extends ServiceTest {
 			if (docxOut)
 				openProcess(Executer.DOCX_EXECUTER, docx.toString());
 
-			ReadService service = new DocxReadService(docx);
+			DocxReadService service = new DocxReadService(docx);
 			service.read();
 			
 	

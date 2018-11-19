@@ -5,16 +5,14 @@ import java.nio.file.Path;
 
 import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 
-import de.juli.docx4j.service.Create;
-import de.juli.docx4j.service.Service;
-import de.juli.docx4j.service.model.Attribut;
+import de.juli.docx4j.service.services.CreateService;
 
-public class DocxCreateService extends Service implements Create{
+public class DocxCreateService implements CreateService {
 
-	private Path target;
+	private Docx4JService docx4jService;
 
 	public DocxCreateService(Path source) throws Exception {
-		super(source);
+		docx4jService = new Docx4JService(source);
 	}
 
 	@Override
@@ -23,16 +21,10 @@ public class DocxCreateService extends Service implements Create{
 
 	@Override
 	public Path create(Path target) throws Exception {
-		MainDocumentPart root = docxService.getRootDocPart();
+		MainDocumentPart root = docx4jService.getRootDocPart(); 
 		root.addStyledParagraphOfText("Title", "Hello World!");
 		root.addParagraphOfText("Welcome To Baeldung");
 		File exportFile = target.toFile();
-		return docxService.save(exportFile);	
+		return docx4jService.save(exportFile);	
 	}
-
-	@Override
-	public void addAttrib(Attribut attibut) {
-		
-	}
-
 }

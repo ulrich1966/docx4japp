@@ -5,8 +5,6 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -27,19 +25,18 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
-import de.juli.docx4j.service.CreateService;
 import de.juli.docx4j.service.model.Attribut;
+import de.juli.docx4j.service.services.CreateService;
 import de.juli.docx4j.service.services.docx.DocxReadService;
 
-public class PdfCreateService extends CreateService {
+public class PdfCreateService implements CreateService {
 	private static final Logger LOG = LoggerFactory.getLogger(PdfCreateService.class);
-	private DocxReadService docxReader;
 	private Document document;
 	private PdfWriter writer;
+	private DocxReadService docxReadService;
 
-	public PdfCreateService(Path path) throws Exception {
-		super(path);
-		docxReader = new DocxReadService(path);
+	public PdfCreateService(Path source) throws Exception {
+		docxReadService = new DocxReadService(source);
 	}
 
 	@Override
@@ -57,28 +54,27 @@ public class PdfCreateService extends CreateService {
 		if(LOG.isDebugEnabled()){
 			xmlLogOut();
 		}
-		docxReader.read();
 		return target;
 	}
 	
 	public String xmlLogOut() throws Docx4JException {
-		String docx = docxReader.marschallDocx(super.docxService.getJaxbElement());
+		String docx = docxReadService.marschallDocx();
 		LOG.info("{}", docx);
 		return docx;
 	}
 
 	public Object objectGen(String docx) throws Docx4JException, FileNotFoundException, JAXBException {
-		Object obj = docxReader.unmarschallDocx(docx);
+		Object obj = docxReadService.unmarschallDocx(docx);
 		LOG.info("{}", obj);
 		return obj;
 	}
 
-	public void addAttrib(Document document, Attribut attibut) {
-		document.addCreationDate();
-		document.addAuthor(attibut.getAuthor());
-		document.addCreator(attibut.getCreator());
-		document.addTitle(attibut.getTitle());
-		document.addSubject(attibut.getSubject());
+	public void addAttrib(Attribut attibut) {
+		this.document.addCreationDate();
+		this.document.addAuthor(attibut.getAuthor());
+		this.document.addCreator(attibut.getCreator());
+		this.document.addTitle(attibut.getTitle());
+		this.document.addSubject(attibut.getSubject());
 	}
 
 	private Object itteratePart(Child child) {
@@ -180,11 +176,4 @@ public class PdfCreateService extends CreateService {
 	public void setDocument(Document document) {
 		this.document = document;
 	}
-
-	@Override
-	public void addAttrib(Attribut attibut) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

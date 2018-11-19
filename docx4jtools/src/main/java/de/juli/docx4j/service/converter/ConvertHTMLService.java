@@ -13,16 +13,15 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.juli.docx4j.service.Create;
-import de.juli.docx4j.service.Service;
-import de.juli.docx4j.service.model.Attribut;
+import de.juli.docx4j.service.services.CreateService;
 
-public class ConvertHTMLService extends Service implements Create {
+public class ConvertHTMLService implements CreateService {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ConvertHTMLService.class);
+	private Path source;
 	
 	public ConvertHTMLService(Path source) throws Exception {
-		super(source);
+		this.source = source;
 	}
 	
 	
@@ -38,12 +37,6 @@ public class ConvertHTMLService extends Service implements Create {
 		return target;
 	}
 
-
-	@Override
-	public void addAttrib(Attribut attibut) {
-	}
-
 	@Override
 	public void open() {
-	}
-}
+	}}

@@ -15,16 +15,17 @@ import org.docx4j.Docx4J;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.juli.docx4j.service.ConvertService;
-import de.juli.docx4j.service.Service;
+import de.juli.docx4j.service.services.docx.Docx4JService;
 import de.juli.docx4j.util.AppConfig;
 import de.juli.docx4j.util.FileTools;
 
-public class ConvertPDFService extends Service implements ConvertService {
+public class ConvertPDFService {
 	private static final Logger LOG = LoggerFactory.getLogger(ConvertPDFService.class);
+	private Path source;
+	private Docx4JService docx4jService;
 
 	public ConvertPDFService(Path source) throws Exception {
-		super(source);
+		docx4jService = new Docx4JService(source);
 	}
 
 	public Path docx4jConvert(Path source, Path target) throws Exception {
@@ -33,7 +34,7 @@ public class ConvertPDFService extends Service implements ConvertService {
 
 	public Path docx4jConvert(Path target) throws Exception {
 		logInfo(target);
-		Docx4J.toPDF(docxService.getWmlPackage(), new FileOutputStream(target.toFile()));
+		Docx4J.toPDF(docx4jService.getWmlPackage(), new FileOutputStream(target.toFile()));
 		return target;
 	}
 
@@ -84,11 +85,5 @@ public class ConvertPDFService extends Service implements ConvertService {
 		PdfConverter.getInstance().convert(document, pdfStream, options);
 		pdfStream.close();
 		return target;
-	}
-
-	@Override
-	public Path create(Path target) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

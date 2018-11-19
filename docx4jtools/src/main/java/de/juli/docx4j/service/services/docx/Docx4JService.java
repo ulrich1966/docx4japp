@@ -39,6 +39,7 @@ public class Docx4JService {
 	private Body body;
 	private File currentFile;
 	private Parts parts;
+	private Path source;
 
 	private Docx4JService() throws InvalidFormatException {
 		super();
@@ -46,8 +47,9 @@ public class Docx4JService {
 		rootDocPart = wmlPackage.getMainDocumentPart();
 	}
 
-	private Docx4JService(Path source) throws Exception {
+	public Docx4JService(Path source) throws Exception {
 		this();
+		this.source = source;
 		open(source);
 	}
 
@@ -55,27 +57,27 @@ public class Docx4JService {
 		wmlPackage.save(currentFile);
 	}
 
-	public static Docx4JService getInstance() {
-		if (instance == null) {
-			try {
-				instance = new Docx4JService();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return instance;
-	}
-
-	public static Docx4JService getInstance(Path source) {
-		if (instance == null) {
-			try {
-				instance = new Docx4JService(source);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return instance;
-	}
+//	public static Docx4JService getInstance() {
+//		if (instance == null) {
+//			try {
+//				instance = new Docx4JService();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return instance;
+//	}
+//
+//	public static Docx4JService getInstance(Path source) {
+//		if (instance == null) {
+//			try {
+//				instance = new Docx4JService(source);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		return instance;
+//	}
 
 	public WordprocessingMLPackage open(Path source) throws Exception {
 		this.wmlPackage = WordprocessingMLPackage.load(source.toFile());
@@ -116,15 +118,7 @@ public class Docx4JService {
 		getPageSize().setW(w);
 		save();
 	}
-
-	public List<String> read(Document document) throws Exception {
-		return null;
-	}
-
-	public Path create(List<String> list, Path path) throws Exception {
-		return path;
-	}
-
+	
 	public List<String> partNamesToList(HashMap<PartName, Part> map) {
 		List<String> names = new ArrayList<>();
 		for (Entry<PartName, Part> enty : map.entrySet()) {
@@ -248,5 +242,9 @@ public class Docx4JService {
 
 	public Parts getParts() {
 		return parts;
+	}
+
+	public Path getSource() {
+		return source;
 	}
 }

@@ -27,20 +27,19 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.pdf.PdfWriter;
 
-import de.juli.docx4j.service.CreateService;
 import de.juli.docx4j.service.model.Attribut;
+import de.juli.docx4j.service.services.CreateService;
 import de.juli.docx4j.service.services.docx.DocxReadService;
 
-public class PdfCreateServiceTry extends CreateService {
+public class PdfCreateServiceTry implements CreateService {
 	private static final Logger LOG = LoggerFactory.getLogger(PdfCreateServiceTry.class);
-	private DocxReadService docxReader;
-	List<Child> elementList = new ArrayList<>();
+	private List<Child> elementList = new ArrayList<>();
 	private Document document;
 	private PdfWriter writer;
-
-	public PdfCreateServiceTry(Path path) throws Exception {
-		super(path);
-		docxReader = new DocxReadService(path);
+	private DocxReadService docxReadService;
+	
+	public PdfCreateServiceTry(Path source) throws Exception {
+		docxReadService = new DocxReadService(source);
 	}
 
 	@Override
@@ -56,8 +55,8 @@ public class PdfCreateServiceTry extends CreateService {
 			throw new IllegalStateException("Kein Dokument vorhanden");
 		}
 
-		List<Object> content = docxReader.read();
-		List<List<Child>> collect = docxReader.getHeaders().stream().map(e -> handleParts(e)).collect(Collectors.toList());
+		List<Object> content = (List<Object>) docxReadService.read();
+		List<List<Child>> collect = docxReadService.getHeaders().stream().map(e -> handleParts(e)).collect(Collectors.toList());
 
 		collect.forEach(h -> {
 			h.forEach(c -> itteratePart(c));
@@ -65,14 +64,12 @@ public class PdfCreateServiceTry extends CreateService {
 		
 		System.out.println();
 		
-		for (Entry<String, StringBuilder> entry : docxReader.docxText().entrySet()) {
+		for (Entry<String, StringBuilder> entry : docxReadService.docxText().entrySet()) {
 			String txt = entry.getValue().toString();
 			LOG.info("{}", txt);			
 		}
 
 		System.out.println();
-		
-		docxReader.play();
 		
 		/*
 		 * 
@@ -108,13 +105,13 @@ public class PdfCreateServiceTry extends CreateService {
 	}
 	
 	public String xmlLogOut() throws Docx4JException {
-		String docx = docxReader.marschallDocx(super.docxService.getJaxbElement());
+		String docx = docxReadService.marschallDocx();
 		LOG.info("{}", docx);
 		return docx;
 	}
 
 	public Object objectGen(String docx) throws Docx4JException, FileNotFoundException, JAXBException {
-		Object obj = docxReader.unmarschallDocx(docx);
+		Object obj = docxReadService.unmarschallDocx(docx);
 		LOG.info("{}", obj);
 		return obj;
 	}
@@ -226,11 +223,4 @@ public class PdfCreateServiceTry extends CreateService {
 	public void setDocument(Document document) {
 		this.document = document;
 	}
-
-	@Override
-	public void addAttrib(Attribut attibut) {
-		// TODO Auto-generated method stub
-
-	}
-
 }

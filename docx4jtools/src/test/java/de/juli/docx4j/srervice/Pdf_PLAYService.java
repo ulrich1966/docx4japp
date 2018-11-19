@@ -22,25 +22,17 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 import com.lowagie.text.pdf.PdfWriter;
 
-import de.juli.docx4j.service.Create;
-import de.juli.docx4j.service.Service;
-import de.juli.docx4j.service.model.Attribut;
+import de.juli.docx4j.service.services.CreateService;
 
-public class Pdf_PLAYService extends Service implements Create {
+public class Pdf_PLAYService implements CreateService {
 	private static final Logger LOG = LoggerFactory.getLogger(Pdf_PLAYService.class);
 	private Path source;
 	private Path target;
 
 	public Pdf_PLAYService(Path path) throws Exception {
-		super(null);
 		source = path;
 	}
-	
-	@Override
-	public void addAttrib(Attribut attibut) {
 		
-	}
-	
 	@Override
 	public void open() throws FileNotFoundException, DocumentException {
 	}
