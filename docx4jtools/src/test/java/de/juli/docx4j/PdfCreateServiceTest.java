@@ -31,7 +31,7 @@ public class PdfCreateServiceTest extends ServiceTest {
 			String[] files = new String[] {"ansch.docx", "converttxt.docx", "headerread.docx"};
 
 			Path target = DOC_ROOT.resolve("test_pdf.pdf");
-			Path docx = DOC_ROOT.resolve(files[2]);
+			Path docx = DOC_ROOT.resolve(files[1]);
 			LOG.info("Erstellt: {}", docx);
 
 			setDocxOut(false);
@@ -41,8 +41,6 @@ public class PdfCreateServiceTest extends ServiceTest {
 			PdfCreateService service = new PdfCreateService(docx);
 			service.open();			
 			service.addAttrib(makeAtt());
-			service.xmlLogOut();
-			//service.objectGen();
 			Path pdf = service.create(target);
 
 			setPdfOut(false);

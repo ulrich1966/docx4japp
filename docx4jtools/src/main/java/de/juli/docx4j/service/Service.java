@@ -7,13 +7,13 @@ import de.juli.docx4j.service.services.docx.Docx4JService;
 public abstract class Service {
 
 	protected Path source;
-	protected Docx4JService service;
+	protected Docx4JService docxService;
 
 	public Service(Path path) throws Exception{
 		super();
 		if(null != path){
 			this.source = path;
-			this.service =  Docx4JService.getInstance(path);			
+			this.docxService =  Docx4JService.getInstance(path);			
 		}
 	}
 
@@ -26,11 +26,11 @@ public abstract class Service {
 	}
 
 	public Docx4JService getService() {
-		return service;
+		return docxService;
 	}
 
 	public void setService(Docx4JService service) {
-		this.service = service;
+		this.docxService = service;
 	}
 	
 }

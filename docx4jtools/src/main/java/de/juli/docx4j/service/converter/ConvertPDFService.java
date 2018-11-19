@@ -33,7 +33,7 @@ public class ConvertPDFService extends Service implements ConvertService {
 
 	public Path docx4jConvert(Path target) throws Exception {
 		logInfo(target);
-		Docx4J.toPDF(service.getWmlPackage(), new FileOutputStream(target.toFile()));
+		Docx4J.toPDF(docxService.getWmlPackage(), new FileOutputStream(target.toFile()));
 		return target;
 	}
 

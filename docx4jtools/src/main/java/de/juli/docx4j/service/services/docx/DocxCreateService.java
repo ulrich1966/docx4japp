@@ -23,11 +23,11 @@ public class DocxCreateService extends Service implements Create{
 
 	@Override
 	public Path create(Path target) throws Exception {
-		MainDocumentPart root = service.getRootDocPart();
+		MainDocumentPart root = docxService.getRootDocPart();
 		root.addStyledParagraphOfText("Title", "Hello World!");
 		root.addParagraphOfText("Welcome To Baeldung");
 		File exportFile = target.toFile();
-		return service.save(exportFile);	
+		return docxService.save(exportFile);	
 	}
 
 	@Override

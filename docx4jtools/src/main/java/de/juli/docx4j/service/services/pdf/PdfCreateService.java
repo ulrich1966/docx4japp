@@ -31,14 +31,13 @@ import de.juli.docx4j.service.CreateService;
 import de.juli.docx4j.service.model.Attribut;
 import de.juli.docx4j.service.services.docx.DocxReadService;
 
-public class PdfCreateServiceTry extends CreateService {
-	private static final Logger LOG = LoggerFactory.getLogger(PdfCreateServiceTry.class);
+public class PdfCreateService extends CreateService {
+	private static final Logger LOG = LoggerFactory.getLogger(PdfCreateService.class);
 	private DocxReadService docxReader;
-	List<Child> elementList = new ArrayList<>();
 	private Document document;
 	private PdfWriter writer;
 
-	public PdfCreateServiceTry(Path path) throws Exception {
+	public PdfCreateService(Path path) throws Exception {
 		super(path);
 		docxReader = new DocxReadService(path);
 	}
@@ -55,55 +54,10 @@ public class PdfCreateServiceTry extends CreateService {
 		if (document == null) {
 			throw new IllegalStateException("Kein Dokument vorhanden");
 		}
-
-		List<Object> content = docxReader.read();
-		List<List<Child>> collect = docxReader.getHeaders().stream().map(e -> handleParts(e)).collect(Collectors.toList());
-
-		collect.forEach(h -> {
-			h.forEach(c -> itteratePart(c));
-		});
-		
-		System.out.println();
-		
-		for (Entry<String, StringBuilder> entry : docxReader.docxText().entrySet()) {
-			String txt = entry.getValue().toString();
-			LOG.info("{}", txt);			
+		if(LOG.isDebugEnabled()){
+			xmlLogOut();
 		}
-
-		System.out.println();
-		
-		docxReader.play();
-		
-		/*
-		 * 
-		 * List<Object> list = (List<Object>) read;
-		 * 
-		 * list.forEach(e -> docxContent(e)); elementList.stream().forEach(e ->
-		 * showCildInfo(e));
-		 * 
-		 * Map<String, String> map = TestDaten.testFiedsAsString(); Collection<String>
-		 * values = map.values();
-		 * 
-		 * elementList.stream().forEach(e -> { try { append(document, e); } catch
-		 * (DocumentException e1) { e1.printStackTrace(); } });
-		 */
-
-		if (document.isOpen()) {
-			try {
-				document.close();
-			} catch (Exception e) {
-				LOG.error("{}", e.getMessage());
-				return null;
-			}
-			if (!writer.isCloseStream()) {
-				try {
-					writer.close();
-				} catch (Exception e) {
-					LOG.error("{}", e.getMessage());
-					return null;
-				}
-			}
-		}
+		docxReader.read();
 		return target;
 	}
 	

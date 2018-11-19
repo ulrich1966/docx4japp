@@ -103,7 +103,6 @@ public class Docx4JService {
 	public PgSz getPageSize() {
 		// PageDimensions page = new PageDimensions();
 		// ObjectFactory factory = Context.getWmlObjectFactory();
-
 		SectPr sectPr = body.getSectPr();
 		PgSz pgSz = sectPr.getPgSz();
 		LOG.debug("{} x {}", pgSz.getH(), pgSz.getW());

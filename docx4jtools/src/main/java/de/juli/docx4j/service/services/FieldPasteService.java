@@ -39,7 +39,7 @@ public class FieldPasteService extends Service {
 	}
 
 	public Path paste(Map<String, String> data, Path target) throws Exception {
-		service.getRootDocPart().variableReplace(data);
-		return service.save(target);
+		docxService.getRootDocPart().variableReplace(data);
+		return docxService.save(target);
 	}
 }
