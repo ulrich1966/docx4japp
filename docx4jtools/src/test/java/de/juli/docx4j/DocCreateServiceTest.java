@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.juli.docx4j.service.services.DocxCreateService;
+import de.juli.docx4j.service.services.docx.DocxCreateService;
 import de.juli.docx4j.util.AppConfig;
 
 public class DocCreateServiceTest {
@@ -25,8 +25,8 @@ public class DocCreateServiceTest {
 		Path target = AppConfig.getRootAsPath().resolve("docs").resolve("test.docx");
 		LOG.debug(""+target);
 		DocxCreateService service = new  DocxCreateService(target);
-		service.open(target);
-		service.create();
+		service.open();
+		service.create(target);
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();

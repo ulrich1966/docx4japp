@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This schema was obtained from OfficeOpenXML-XMLSchema.zip http://www.ecma-international.org/publications/standards/Ecma-376.htm says "Copy these file(s), free of charge" WHICH VERSION? This is based on ECMA-376, first edition (as opposed to 2ed, which was not then available). REVISION HISTORY 20080109 - redefine ST_LongHexNumber as a xsd:string to workaround NPE in HexBinaryAdapter.marshal in JAXB 2.0 20080407 - revert back to Microsoft's original wml.xsd, but omit math: and drawing: - Styles 
+	@qformat ; Style @default : 20081001 - get rid of CT_HdrFtr (just use hdr and ftr) 20090902 - add math back in 20091010 - oops, added EG_MathContent back into EG_RunElements 20120105 - add element name="compatSetting" and type="CT_CompatSetting" from 2ed, so Word 2010 can detect docx as native 20130401 - CT_TblLook from transitional 4ed; fixes https://github.com/plutext/docx4j/issues/53 20130709 - [MS-DOCX] w14, w15 - most bits, but not rPr extensions, conflict extensions, or calendar type extensions 
+	20180526 - Add mc:AlternateContent to w:r Add w14 text effects to rPr USAGE INSTRUCTIONS This is a schema for a subset of the document part of WordML. To generate java classes, you need xjc, from the JAXB 2.1 RI. And the parent-pointer-plugin. See http://fisheye5.cenqua.com/browse/jaxb2-commons/parent-pointer-plugin We have a copy of this in the lib dir. Or you can build it yourself: cvs -d :pserver:$DEV_JAVA_NET_USERNAME@cvs.dev.java.net:/cvs checkout -P jaxb2-commons mvn package To CLEAN previously 
+	generated classes: rm /home/dev/workspace/docx4j/src/main/java/org/docx4j/dml/*.java -rf rm /home/dev/workspace/docx4j/src/main/java/org/docx4j/wml/*.java -rf rm /home/dev/workspace/docx4j/src/main/java/org/docx4j/customxml/*.java -rf rm /home/dev/workspace/docx4j/src/main/java/org/docx4j/math/*.java -rf To generate the classes (from the same directory) // 201805: Extensions don't work with xjc 2.3.0? https://stackoverflow.com/questions/28145306/how-to-use-jaxb-extensions-on-xjc-command-line?rq=1 
+	// so use 2.2.11 instead sh /media/jharrop/Overflow/java/jaxb-ri-2.2.11/bin/xjc.sh -classpath /media/jharrop/Overflow/java/parent-pointer-plugin-1.2.jar -Xparent-pointer wml.xsd -d tmp -no-header -target 2.0 It would be nice to be able to add the fluent api, but having 2 entries on the class path doesn't seem to work! TODO - try with an ant task sh ~/jaxb-ri-20071219/bin/xjc.sh -classpath ~/workspace/docx4j/m2/org/jvnet/jaxb2_commons/ppp/parent-pointer-plugin/1.0/parent-pointer-plugin-1.0.jar:~/workspace/docx4j/lib/jaxb-fluent-api-2.1.8.jar 
+	-Xfluent-api -Xparent-pointer wml.xsd -d tmp/ -no-header -target 2.0 jaxb-ri-20071219 is 2.1.6; jaxb-ri-20070917 works equally well. You can't just use the xjc included in Java 6, since it says unrecognized parameter -Xparent-pointer Windows: 20160521 for 3.3.1. Did not generate createSdtContentBlockAltChunk; related to comment for "SdtContentBlock" below? \Java\jaxb-ri-2.2.11\bin\xjc -classpath \Java\parent-pointer-plugin-1.2.jar -Xparent-pointer wml.xsd -d tmp -no-header -target 2.0 \Java\jaxb-ri-20110601\bin\xjc 
+	-classpath \Java\parent-pointer-plugin-1.2.jar -Xparent-pointer wml.xsd -d tmp -no-header -target 2.0 [TODO FIXME that parent-pointer-plugin-1.2.jar generates a Child class in the package, which is not what we want for backwards compat] previously: C:>\Java\jaxb-ri-20110601\bin\xjc.bat -classpath \Java\parent-pointer-plugin-1.0.jar -Xparent-pointer wml.xsd -d t2 -no-header -target 2.0 or C:>\Java\jaxb-ri-2.2.6\bin\xjc -classpath \Java\parent-pointer-plugin-1.0.jar -Xparent-pointer wml.xsd -d tmp 
+	-no-header -target 2.0 cd to the directory containing the new sources Then add the copyright notice: sed -s -i -f script *.java where script is # sed script to insert "header.txt" above the first line 1{h; r header.txt D; } 2{x; G; } #- - -end of sed script- - - and header.txt contains the copyright notice. On Windows: "c:\Program Files (x86)\GnuWin32\bin\sed.exe" -s -i -f script *.java Then apply our patches: jharrop@jharrop-490:~/workspace200711/docx4j-001/src/main/java$ patch -p0 < wml-generated-package.patch 
+	To create patches: /target/freshly-generated$ diff . ../previously-modified-sources/ -u -r > diffs-u.txt PRINCIPLES: 1. Don't inline (into its CT) an enumeration in an ST 2. Be careful with <element name= with no type= ..> where that is used in several places, as these can turn into fields pointing at the an odd class. Better to make it <element ref= 3. Apart from this, russian doll is good. 4. Resolve ST_String, etc 5. Elements defined < @name= @type> (at least in a group) sometimes instantiated 
+	as the expected object, other times as a JAXBElement. Using <xjc:simple> doesn't fix it. The solution is to redefine as < @ref= ..> But I can't do this for <sdt>, since there are multiple local definitions of <sdt>. 6. Don't define locally elements which we may wish to unmarshall by themselves! -->
+
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	elementFormDefault="qualified" 
+	attributeFormDefault="qualified" 
+	blockDefault="#all" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" 
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" 
+	xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main" 
+	xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing"
+	xmlns:s="http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes" 
+	xmlns="http://schemas.openxmlformats.org/wordprocessingml/2006/main" 
+	targetNamespace="http://schemas.openxmlformats.org/wordprocessingml/2006/main" 
+	xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" 
+	xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" 
+	xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" 
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+	jaxb:version="2.1">
+	<!-- jaxb:extensionBindingPrefixes="xjc" -->
+
+	<xsd:import id="sl" namespace="http://schemas.openxmlformats.org/schemaLibrary/2006/main" schemaLocation="../customXml/shared-customXmlSchemaProperties.xsd" />
+	<xsd:import id="m" namespace="http://schemas.openxmlformats.org/officeDocument/2006/math" schemaLocation="../shared/shared-math-2ed.xsd" />
+	<!-- 2011 09 20 include this to compile wml.xsd directly with jaxb-ri-20110601 -->
+	<xsd:import id="dml" namespace="http://schemas.openxmlformats.org/drawingml/2006/main" schemaLocation="../dml/dml__ROOT.xsd" />
+	<xsd:import id="wp" namespace="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" schemaLocation="../dml/dml-wordprocessingDrawing.xsd" />
+	<!-- Used in FontRel -->
+	<xsd:import id="rel" namespace="http://schemas.openxmlformats.org/officeDocument/2006/relationships" schemaLocation="../shared/shared-relationshipReference.xsd" />
+	<!-- Used by w:tblLook -->
+	<xsd:import namespace="http://schemas.openxmlformats.org/officeDocument/2006/sharedTypes" schemaLocation="../shared/shared-commonSimpleTypes.xsd" />
+	<xsd:import id="xml" namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xml.xsd" />
+	<!-- since docx4j 3.0 -->
+	<xsd:import id="mce" namespace="http://schemas.openxmlformats.org/markup-compatibility/2006" schemaLocation="../mce/markup-compatibility-2006-MINIMAL.xsd" />
+	<xsd:import id="w14" namespace="http://schemas.microsoft.com/office/word/2010/wordml" schemaLocation="w14_word_2010_wordml.xsd" />
+	<xsd:import id="w15" namespace="http://schemas.microsoft.com/office/word/2012/wordml" schemaLocation="w15_word_2012_wordml.xsd" />
+</xsd:schema>

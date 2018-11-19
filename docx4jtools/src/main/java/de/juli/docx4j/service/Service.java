@@ -2,7 +2,7 @@ package de.juli.docx4j.service;
 
 import java.nio.file.Path;
 
-import de.juli.docx4j.service.services.Docx4JService;
+import de.juli.docx4j.service.services.docx.Docx4JService;
 
 public abstract class Service {
 

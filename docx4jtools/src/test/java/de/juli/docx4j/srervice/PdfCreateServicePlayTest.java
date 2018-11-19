@@ -27,8 +27,8 @@ public class PdfCreateServicePlayTest {
 			Path source = AppConfig.getRootAsPath().resolve("docs").resolve("ansch.docx");
 			LOG.debug("" + target);
 			Pdf_PLAYService service = new Pdf_PLAYService(source);
-			service.open(target);
-			target = service.create();
+			service.open();
+			target = service.create(target);
 			ExecProcess process = ExecProcess.getInstance(Executer.PDF_EXECUTER_LT, target.toString());
 			process.start();
 		} catch (Exception e) {

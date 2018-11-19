@@ -42,17 +42,14 @@ public class Pdf_PLAYService extends Service implements Create {
 	}
 	
 	@Override
-	public void open(Path target) {
-		this.target = target;
+	public void open() throws FileNotFoundException, DocumentException {
 	}
 
 	@Override
-	public Path create() throws DocumentException, IOException {
+	public Path create(Path target) throws DocumentException, IOException {
 		Document document = new Document();
 		PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(target.toFile()));
-
 		document.open();
-
 		Font font = FontFactory.getFont(FontFactory.COURIER, 16, Color.BLACK);
 		Chunk chunk = new Chunk("Hello World", font);
 
@@ -120,7 +117,7 @@ public class Pdf_PLAYService extends Service implements Create {
 		document.addAuthor("Ulrich Klood");
 		document.addCreationDate();
 		document.addCreator("Ulrich Klood");
-		document.addTitle("Test für PDF");
+		document.addTitle("Test fï¿½r PDF");
 		document.addSubject("Ein Test der PDF Dokumentenerstellung");
 	}
 

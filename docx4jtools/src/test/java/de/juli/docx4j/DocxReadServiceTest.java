@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.juli.docx4j.service.ReadService;
-import de.juli.docx4j.service.services.DocxReadService;
+import de.juli.docx4j.service.services.docx.DocxReadService;
 import de.juli.docx4j.util.ExecProcess;
 import de.juli.docx4j.util.Executer;
 

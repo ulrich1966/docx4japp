@@ -7,14 +7,12 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.juli.docx4j.service.Create;
 import de.juli.docx4j.service.model.Attribut;
 import de.juli.docx4j.service.services.FieldPasteService;
-import de.juli.docx4j.service.services.PdfCreateService;
+import de.juli.docx4j.service.services.pdf.PdfCreateService;
 import de.juli.docx4j.util.Executer;
 import de.juli.docx4j.util.TestDaten;
 
@@ -40,12 +38,14 @@ public class PdfCreateServiceTest extends ServiceTest {
 			if (docxOut)
 				openProcess(Executer.DOCX_EXECUTER, docx.toString());
 
-			Create service = new PdfCreateService(docx);
-			service.open(target);			
+			PdfCreateService service = new PdfCreateService(docx);
+			service.open();			
 			service.addAttrib(makeAtt());
-			Path pdf = service.create();
+			service.xmlLogOut();
+			//service.objectGen();
+			Path pdf = service.create(target);
 
-			setPdfOut(true);
+			setPdfOut(false);
 			if (pdfOut && pdf != null)
 				openProcess(Executer.PDF_EXECUTER, pdf.toString());
 

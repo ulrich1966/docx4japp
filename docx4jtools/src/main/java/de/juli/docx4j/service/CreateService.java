@@ -10,9 +10,9 @@ public abstract class CreateService extends Service implements Create {
 	}
 	
 	@Override
-	public void open(Path target) throws FileNotFoundException {
-		if(!target.toFile().exists()) {
-			throw new FileNotFoundException(String.format("Die angegebene Datei: [%s] konnte nicht gefunden werden!", target.toString()));
+	public void open() throws FileNotFoundException {
+		if(!source.toFile().exists()) {
+			throw new FileNotFoundException(String.format("Die angegebene Datei: [%s] konnte nicht gefunden werden!", source.toString()));
 		}
 	}
 }

@@ -20,7 +20,6 @@ import de.juli.docx4j.service.model.Attribut;
 public class ConvertHTMLService extends Service implements Create {
 	@SuppressWarnings("unused")
 	private static final Logger LOG = LoggerFactory.getLogger(ConvertHTMLService.class);
-	private Path target;
 	
 	public ConvertHTMLService(Path source) throws Exception {
 		super(source);
@@ -28,7 +27,7 @@ public class ConvertHTMLService extends Service implements Create {
 	
 	
 	@Override
-	public Path create() throws Exception {
+	public Path create(Path target) throws Exception {
 		XWPFDocument document = new XWPFDocument(new FileInputStream(source.toFile()));
 		XHTMLOptions options = XHTMLOptions.create();
 		
@@ -45,7 +44,6 @@ public class ConvertHTMLService extends Service implements Create {
 	}
 
 	@Override
-	public void open(Path target) {
-		this.target = target;
+	public void open() {
 	}
 }

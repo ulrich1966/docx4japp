@@ -1,4 +1,4 @@
-package de.juli.docx4j.service.services;
+package de.juli.docx4j.service.services.docx;
 
 import java.io.File;
 import java.math.BigInteger;
