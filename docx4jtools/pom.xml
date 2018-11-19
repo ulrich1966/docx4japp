@@ -1,0 +1,50 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>de.juli</groupId>
+    <artifactId>docx4japp</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>docx4jtools</artifactId>
+  
+  <properties>
+		<version.jaxb-api>2.1</version.jaxb-api>
+		<version.xwpf>1.0.6</version.xwpf>
+	</properties>
+
+	<dependencies>		
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>${version.jaxb-api}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.pdf</artifactId>
+			<version>${version.xwpf}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.xhtml</artifactId>
+			<version>${version.xwpf}</version>
+		</dependency>
+		<dependency>
+			<groupId>fr.opensagres.xdocreport</groupId>
+			<artifactId>org.apache.poi.xwpf.converter.core</artifactId>
+			<version>${version.xwpf}</version>
+		</dependency>
+		<!-- <dependency> <groupId>org.jodconverter</groupId> <artifactId>jodconverter-core</artifactId> <version>4.2.1</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-local -->
+		<!-- <dependency> <groupId>org.jodconverter</groupId> <artifactId>jodconverter-local</artifactId> <version>4.2.1</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.jodconverter/jodconverter-online -->
+		<!-- <dependency> <groupId>org.jodconverter</groupId> <artifactId>jodconverter-online</artifactId> <version>4.2.1</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.artofsolving.jodconverter/jodconverter-core -->
+		<!-- <dependency>
+			<groupId>org.artofsolving.jodconverter</groupId>
+			<artifactId>jodconverter-core</artifactId>
+			<version>3.0-beta-4-jahia2</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/jodconverter-core-3.0-beta-4-jahia2.jar</systemPath>
+		</dependency> -->
+	</dependencies>
+</project>
