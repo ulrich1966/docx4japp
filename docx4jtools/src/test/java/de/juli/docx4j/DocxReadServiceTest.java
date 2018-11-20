@@ -29,8 +29,8 @@ public class DocxReadServiceTest extends ServiceTest {
 			if (docxOut)
 				openProcess(Executer.DOCX_EXECUTER, docx.toString());
 
-			DocxReadService service = new DocxReadService(docx);
-			service.read();
+			//DocxReadService service = new DocxReadService(docx);
+			//service.read();
 			
 	
 			

@@ -1,12 +1,10 @@
-package de.juli.docx4j.service.services.pdf;
+package de.juli.docx4j.pdffactory;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
@@ -29,17 +27,17 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import de.juli.docx4j.service.model.Attribut;
 import de.juli.docx4j.service.services.CreateService;
+import de.juli.docx4j.service.services.docx.Docx4JService;
 import de.juli.docx4j.service.services.docx.DocxReadService;
 
-public class PdfCreateServiceTry implements CreateService {
-	private static final Logger LOG = LoggerFactory.getLogger(PdfCreateServiceTry.class);
-	private List<Child> elementList = new ArrayList<>();
+class PdfCreateService implements CreateService {
+	private static final Logger LOG = LoggerFactory.getLogger(PdfCreateService.class);
 	private Document document;
 	private PdfWriter writer;
-	private DocxReadService docxReadService;
-	
-	public PdfCreateServiceTry(Path source) throws Exception {
-		//docxReadService = new DocxReadService(source);
+	private Docx4JService docx4jService;
+
+	protected PdfCreateService(Docx4JService docx4jService) throws Exception {
+		this.docx4jService = docx4jService;
 	}
 
 	@Override
@@ -54,83 +52,24 @@ public class PdfCreateServiceTry implements CreateService {
 		if (document == null) {
 			throw new IllegalStateException("Kein Dokument vorhanden");
 		}
-
-		List<Object> content = (List<Object>) docxReadService.read();
-		List<List<Child>> collect = docxReadService.getHeaders().stream().map(e -> handleParts(e)).collect(Collectors.toList());
-
-		collect.forEach(h -> {
-			h.forEach(c -> itteratePart(c));
-		});
-		
-		System.out.println();
-		
-		for (Entry<String, StringBuilder> entry : docxReadService.docxText().entrySet()) {
-			String txt = entry.getValue().toString();
-			LOG.info("{}", txt);			
-		}
-
-		System.out.println();
-		
-		/*
-		 * 
-		 * List<Object> list = (List<Object>) read;
-		 * 
-		 * list.forEach(e -> docxContent(e)); elementList.stream().forEach(e ->
-		 * showCildInfo(e));
-		 * 
-		 * Map<String, String> map = TestDaten.testFiedsAsString(); Collection<String>
-		 * values = map.values();
-		 * 
-		 * elementList.stream().forEach(e -> { try { append(document, e); } catch
-		 * (DocumentException e1) { e1.printStackTrace(); } });
-		 */
-
-		if (document.isOpen()) {
-			try {
-				document.close();
-			} catch (Exception e) {
-				LOG.error("{}", e.getMessage());
-				return null;
-			}
-			if (!writer.isCloseStream()) {
-				try {
-					writer.close();
-				} catch (Exception e) {
-					LOG.error("{}", e.getMessage());
-					return null;
-				}
-			}
-		}
 		return target;
 	}
 	
-	public String xmlLogOut() throws Docx4JException {
-		String docx = docxReadService.marschallDocx();
-		LOG.info("{}", docx);
-		return docx;
+	public void addAttrib(Attribut attibut) {
+		this.document.addCreationDate();
+		this.document.addAuthor(attibut.getAuthor());
+		this.document.addCreator(attibut.getCreator());
+		this.document.addTitle(attibut.getTitle());
+		this.document.addSubject(attibut.getSubject());
 	}
 
-	public Object objectGen(String docx) throws Docx4JException, FileNotFoundException, JAXBException {
-		Object obj = docxReadService.unmarschallDocx(docx);
-		LOG.info("{}", obj);
-		return obj;
-	}
-
-	public void addAttrib(Document document, Attribut attibut) {
-		document.addCreationDate();
-		document.addAuthor(attibut.getAuthor());
-		document.addCreator(attibut.getCreator());
-		document.addTitle(attibut.getTitle());
-		document.addSubject(attibut.getSubject());
-	}
-
-	private Object itteratePart(Child child) {
+	private Object iteratePart(Child child) {
 		LOG.debug("{}: {}", child.getClass(), child);
 		if (child instanceof org.docx4j.wml.P) {
 			org.docx4j.wml.P element = (P) child;
 			List<Object> content = element.getContent();
 			if(content != null && content.size() >=1) {
-				content.forEach(c-> itteratePart((Child) c));
+				content.forEach(c-> iteratePart((Child) c));
 			} else {
 				LOG.info("no more elements");				
 			}

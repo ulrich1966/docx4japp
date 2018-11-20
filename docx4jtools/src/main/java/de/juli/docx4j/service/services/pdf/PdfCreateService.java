@@ -36,7 +36,7 @@ public class PdfCreateService implements CreateService {
 	private DocxReadService docxReadService;
 
 	public PdfCreateService(Path source) throws Exception {
-		docxReadService = new DocxReadService(source);
+		//docxReadService = new DocxReadService(source);
 	}
 
 	@Override

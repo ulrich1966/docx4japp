@@ -1,4 +1,4 @@
-package de.juli.docx4j.service.services.docx;
+package de.juli.docx4j.pdffactory;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.juli.docx4j.service.services.ReadService;
+import de.juli.docx4j.service.services.docx.Docx4JService;
 import de.juli.docx4j.util.PartKey;
 
 public class DocxReadService implements ReadService {
@@ -35,8 +36,8 @@ public class DocxReadService implements ReadService {
 	private Docx4JService docx4jService;
 
 
-	public DocxReadService(Docx4JService docx4jService) throws Exception {
-		this.docx4jService = docx4jService; 
+	public DocxReadService(Path source) throws Exception {
+		docx4jService = new Docx4JService(source);
 	}
 
 	@Override
