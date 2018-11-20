@@ -3,7 +3,6 @@ package de.juli.docx4j.service.services.docx;
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,23 +15,19 @@ import org.docx4j.XmlUtils;
 import org.docx4j.jaxb.XPathBinderAssociationIsPartialException;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.parts.Part;
+import org.docx4j.openpackaging.parts.Parts;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
+import org.docx4j.org.apache.poi.poifs.property.Child;
 import org.docx4j.wml.Body;
 import org.docx4j.wml.Document;
-import org.docx4j.wml.SectPr;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.juli.docx4j.service.services.ReadService;
 import de.juli.docx4j.util.PartKey;
 
 public class DocxReadService implements ReadService {
-	private static final Logger LOG = LoggerFactory.getLogger(DocxReadService.class);
-	private String marshalString;
-	private Part header;
-	private Part footer;
-	private Map<String, Document> contentMap = new HashMap<>();
+	//private static final Logger LOG = LoggerFactory.getLogger(DocxReadService.class);
 	private Docx4JService docx4jService;
+	private Parts parts;
 
 
 	public DocxReadService(Docx4JService docx4jService) throws Exception {
@@ -41,23 +36,44 @@ public class DocxReadService implements ReadService {
 
 	@Override
 	public Object read() throws Exception {
-		List<Object> content = docx4jService.getJaxbElement().getContent();
-		Body body = docx4jService.getBody();
-		SectPr sectPr = body.getSectPr();
-
-		LOG.info("{}", body.getClass());
-		org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart header = (HeaderPart) docx4jService.getParts().get(PartKey.getPartName(PartKey.HEADER1));
-		List<Object> hc = header.getJaxbElement().getContent();
+		this.parts = docx4jService.getParts();
 		
-		hc.forEach(c -> LOG.info("{} {}", c, c.getClass()));
-		return content;
+//		List<Object> content = docx4jService.getJaxbElement().getContent();
+//		SectPr sectPr = body.getSectPr();
+//
+//		LOG.info("{}", body.getClass());
+//		List<Object> hc = header.getJaxbElement().getContent();
+//		
+//		hc.forEach(c -> LOG.info("{} -> {}", c, c.getClass()));
+//		return content;
 		//contentMap.put("body", body);
+		return this.parts;
+	}
+
+	public List<Object> readHeader() throws Exception {
+		if(parts == null) {
+			read();
+		}
+		org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart header = (HeaderPart) docx4jService.getParts().get(PartKey.getPartName(PartKey.HEADER1));
+		return header.getContent();
+	}
+
+	public List<Object> readBody() throws Exception {
+		if(parts == null) {
+			read();
+		}
+		Body body = docx4jService.getBody();
+		// same as: docx4jService.getJaxbElement()
+		return body.getContent();
 	}
 
 	public String marschallDocx() throws Docx4JException {
 		return XmlUtils.marshaltoString(docx4jService.getJaxbElement(), true, true);
 	}
 
+	public String marschallDocx(Object obj, JAXBContext context) throws Docx4JException {
+		return XmlUtils.marshaltoString(obj, context);
+	}
 
 	public Document unmarschallDocx(String value) throws Docx4JException, FileNotFoundException, JAXBException {
 		InputStream is = new ByteArrayInputStream(value.getBytes());

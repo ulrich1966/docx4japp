@@ -26,12 +26,14 @@ public class ContentMapFactoryTest extends ServiceTest {
 			String[] files = new String[] {"ansch.docx", "converttxt.docx", "headerread.docx"};
 
 			Path target = DOC_ROOT.resolve("test_pdf.pdf");
-			Path docx = DOC_ROOT.resolve(files[1]);
+			Path docx = DOC_ROOT.resolve(files[2]);
 			ContentMapFactory factory = ContentMapFactory.getInstance(docx);
 			Assert.assertNotNull("DocxReadService missing", factory.getDocxReadService());
 			Assert.assertNotNull("PdfCreateService missing", factory.getPdfCreateService());
+			factory.addPdfAttributs(makeAtt());
+			factory.marshall();
 			factory.createPdf(target);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();
