@@ -14,11 +14,13 @@ import de.juli.docx4j.ServiceTest;
 import de.juli.docx4j.pdffactory.ContentMapFactory;
 import de.juli.docx4j.service.model.Attribut;
 import de.juli.docx4j.service.services.FieldPasteService;
+import de.juli.docx4j.util.Executer;
 import de.juli.docx4j.util.TestDaten;
 
 public class ContentMapFactoryTest extends ServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(ContentMapFactoryTest.class);
-
+	private boolean execPdf = false;
+	
 	@Test
 	public void test() {	
 		try {
@@ -31,8 +33,9 @@ public class ContentMapFactoryTest extends ServiceTest {
 			Assert.assertNotNull("DocxReadService missing", factory.getDocxReadService());
 			Assert.assertNotNull("PdfCreateService missing", factory.getPdfCreateService());
 			factory.addPdfAttributs(makeAtt());
-			factory.marshall();
-			factory.createPdf(target);
+			Path pdf = factory.createPdf(target);
+			
+			if(execPdf) openProcess(Executer.PDF_EXECUTER, pdf.toString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,52 +1,36 @@
 package de.juli.docx4j.pdffactory;
 
 import java.io.FileNotFoundException;
-import java.math.BigInteger;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import javax.naming.Context;
 import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
 
-import org.docx4j.openpackaging.exceptions.Docx4JException;
-import org.docx4j.org.apache.poi.poifs.property.Child;
 import org.docx4j.wml.P;
-import org.docx4j.wml.PPr;
-import org.docx4j.wml.R;
 import org.docx4j.wml.Tbl;
-import org.docx4j.wml.TblGridCol;
-import org.docx4j.wml.TblWidth;
-import org.docx4j.wml.Tc;
-import org.docx4j.wml.Text;
-import org.docx4j.wml.Tr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.lowagie.text.Chunk;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
 import com.lowagie.text.Paragraph;
-import com.lowagie.text.pdf.PdfPRow;
-import com.lowagie.text.pdf.PdfPTable;
 
+import de.juli.docx4j.controller.TableController;
 import de.juli.docx4j.service.model.Attribut;
 import de.juli.docx4j.service.services.docx.Docx4JService;
 import de.juli.docx4j.service.services.docx.DocxReadService;
+import de.juli.docx4j.util.MarshallerUtil;
 
 public class ContentMapFactory {
 	private static final Logger LOG = LoggerFactory.getLogger(ContentMapFactory.class);
-	private AtomicInteger counter = new AtomicInteger(0);
 	private static ContentMapFactory instance;
 	private PdfCreateService pdfCreateService;
 	private DocxReadService docxReadService;
 	private Docx4JService docx4jService;
 	private ArrayList<Object> list;
-	private List<TblGridCol> gridCol;
+	private Path target;
+	private MarshallerUtil marshaller = new MarshallerUtil(org.docx4j.jaxb.Context.jc);
 
 	private ContentMapFactory(Path source) throws Exception {
 		super();
@@ -63,87 +47,80 @@ public class ContentMapFactory {
 	}
 
 	public Path createPdf(Path target) throws Exception {
+		this.target = target;
 		List<Object> header = this.docxReadService.readHeader();
-		List<String> headerXml = header.stream().map(c -> marshall(c)).collect(Collectors.toList());
-		headerXml.forEach(c -> LOG.info("{}", c));
-		
-		//header.stream().map(c -> iterateChild(c)).collect(Collectors.toList());
-		
-		//list.forEach(c -> LOG.info("{}", c));
+		List<org.jvnet.jaxb2_commons.ppp.Child> childs = header.stream().map(c -> addElementToDoc(c)).collect(Collectors.toList());
+
+		// List<String> headerXml = header.stream().map(c ->
+		// marshall(c)).collect(Collectors.toList());
+		// headerXml.forEach(c -> LOG.info("{}", c));
+		// header.stream().map(c ->
+		// iterateChild(c)).collect(Collectors.toList());
+		// list.forEach(c -> LOG.info("{}", c));
 		// List<Object> body = this.docxReadService.readBody();
 		// body.forEach(c -> LOG.info("{}", c.getClass()));
 
 		return target;
 	}
 
-	public String marshall() throws Docx4JException {
-		String docx = docxReadService.marschallDocx();
-		LOG.debug("{}", docx);
-		return docx;
-	}
-
-	public String marshall(Object obj) {
-		String docx = null;
-		StringBuilder sb = new StringBuilder();
-		try {
-			docx = docxReadService.marschallDocx(obj, org.docx4j.jaxb.Context.jc);
-			sb.append("\n\n------------------------------------------------------------------------------------------------\n");
-			sb.append(String.format("\nHEADER NR: %s INHALT: %s\n", counter.intValue(), obj.getClass()));
-			sb.append(String.format("\n%s\n", docx));
-		} catch (Docx4JException e) {
-			e.printStackTrace();
-		}			
-		return sb.toString();
-	}
-
-	public Object unmarshall(String docx) throws Docx4JException, FileNotFoundException, JAXBException {
-		Object obj = docxReadService.unmarschallDocx(docx);
-		LOG.info("{}", obj);
-		return obj;
-	}
-
 	public void addPdfAttributs(Attribut attibuts) throws FileNotFoundException {
-		pdfCreateService.addAttrib(attibuts);
+		pdfCreateService.setAttibut(attibuts);
 	}
-	
-	private String addElementToDoc(Object value) {
+
+	private org.jvnet.jaxb2_commons.ppp.Child addElementToDoc(Object value) {
+		org.jvnet.jaxb2_commons.ppp.Child child = null;
+		//LOG.debug(marshall(value));
+
 		if (value instanceof org.docx4j.wml.P) {
 			org.docx4j.wml.P element = (P) value;
 			addParagraph(element);
+			child = element;
 		}
-		return null;
+
+		if (value instanceof javax.xml.bind.JAXBElement) {
+			javax.xml.bind.JAXBElement<?> jaxb = (JAXBElement<?>) value;
+			if (jaxb.getValue() instanceof org.docx4j.wml.Tbl) {
+				org.docx4j.wml.Tbl element = (Tbl) jaxb.getValue();
+				addTable(element);
+				child = element;
+			}
+		}
+
+//		String xpath = "//w:p";
+//		List<Object> list = documentPart.getJAXBNodesViaXPath(xpath, false);
+
+		return child;
 	}
-	
+
 	private void addParagraph(P element) {
-		Document document = pdfCreateService.getDocument();
 		Chunk chunk = new Chunk("");
 		Paragraph paragraph = new Paragraph(chunk);
 		pdfCreateService.addElement(paragraph);
-		
 	}
 
-	private void addTable(org.docx4j.wml.Tbl tab){
-		List<TblGridCol> cols = tab.getTblGrid().getGridCol();		
-		Float w = new Float(tab.getTblPr().getTblW().getW().intValue());
-		
-		PdfPTable table = new PdfPTable(cols.size());
-		table.setTotalWidth(w);
-		
-		Paragraph paragraph = new Paragraph();
-		paragraph.add(table);
-		
-		for (TblGridCol col : cols) {
+	private void addTable(org.docx4j.wml.Tbl tab) {
+		TableController controller = new TableController();
+		controller.createModel(tab);	
+
+
+		// PdfPCell cell1 = new PdfPCell(new Paragraph("Cell 1"));
+		// cell1.setBorderColor(BaseColor.BLUE);
+		// cell1.setPaddingLeft(10);
+		// cell1.setHorizontalAlignment(Element.ALIGN_CENTER);
+		// cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+		try {
+			pdfCreateService.create(target);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
 	}
 
-	
-	
-	
+	/*
+	 * 
 	private String iterateChild(Object value) {
 		LOG.debug("{} : {}", value.getClass(), value);
 		String txt = null;
-
 
 		if (value instanceof org.docx4j.wml.R) {
 			org.docx4j.wml.R element = (R) value;
@@ -163,9 +140,9 @@ public class ContentMapFactory {
 			if (jaxb.getValue() instanceof org.docx4j.wml.Tbl) {
 				org.docx4j.wml.Tbl element = (Tbl) jaxb.getValue();
 				LOG.debug("\t\t- {} -", element);
-				
+
 				addTable(element);
-				
+
 				List<Object> content = element.getContent();
 				if (content != null && content.size() >= 1) {
 					content.forEach(c -> iterateChild(c));
@@ -208,8 +185,8 @@ public class ContentMapFactory {
 
 		return txt;
 	}
-	
-	
+	 */
+
 	public PdfCreateService getPdfCreateService() {
 		return pdfCreateService;
 	}

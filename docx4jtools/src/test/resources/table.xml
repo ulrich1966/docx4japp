@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<w:tbl xmlns:dsp="http://schemas.microsoft.com/office/drawing/2008/diagram" xmlns:cppr="http://schemas.microsoft.com/office/2006/coverPageProps" xmlns:odx="http://opendope.org/xpaths" xmlns:c14="http://schemas.microsoft.com/office/drawing/2007/8/2/chart" xmlns:xdr="http://schemas.openxmlformats.org/drawingml/2006/spreadsheetDrawing" xmlns:odgm="http://opendope.org/SmartArt/DataHierarchy" xmlns:w16se="http://schemas.microsoft.com/office/word/2015/wordml/symex" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:dgm="http://schemas.openxmlformats.org/drawingml/2006/diagram" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture" xmlns:we="http://schemas.microsoft.com/office/webextensions/webextension/2010/11" xmlns:pvml="urn:schemas-microsoft-com:office:powerpoint" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:comp="http://schemas.openxmlformats.org/drawingml/2006/compatibility" xmlns:b="http://schemas.openxmlformats.org/officeDocument/2006/bibliography" xmlns:c="http://schemas.openxmlformats.org/drawingml/2006/chart" xmlns:xvml="urn:schemas-microsoft-com:office:excel" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:oda="http://opendope.org/answers" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:odc="http://opendope.org/conditions" xmlns:cdr="http://schemas.openxmlformats.org/drawingml/2006/chartDrawing" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:odi="http://opendope.org/components" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:lc="http://schemas.openxmlformats.org/drawingml/2006/lockedCanvas" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape" xmlns:odq="http://opendope.org/questions" xmlns:wetp="http://schemas.microsoft.com/office/webextensions/taskpanes/2010/11" xmlns:w16cid="http://schemas.microsoft.com/office/word/2016/wordml/cid">
+    <w:tblPr>
+        <w:tblW w:w="9643" w:type="dxa"/>
+        <w:jc w:val="left"/>
+        <w:tblInd w:w="0" w:type="dxa"/>
+        <w:tblBorders/>
+        <w:tblCellMar>
+            <w:top w:w="0" w:type="dxa"/>
+            <w:left w:w="0" w:type="dxa"/>
+            <w:bottom w:w="0" w:type="dxa"/>
+            <w:right w:w="0" w:type="dxa"/>
+        </w:tblCellMar>
+    </w:tblPr>
+    <w:tblGrid>
+        <w:gridCol w:w="2602"/>
+        <w:gridCol w:w="7041"/>
+    </w:tblGrid>
+    <w:tr>
+        <w:trPr/>
+        <w:tc>
+            <w:tcPr>
+                <w:tcW w:w="2602" w:type="dxa"/>
+                <w:tcBorders/>
+                <w:shd w:val="clear" w:fill="FFFFFF"/>
+            </w:tcPr>
+            <w:p>
+                <w:pPr>
+                    <w:pStyle w:val="Kopfzeile"/>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
+                        <w:sz w:val="24"/>
+                        <w:szCs w:val="24"/>
+                    </w:rPr>
+                </w:pPr>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman"/>
+                        <w:sz w:val="24"/>
+                        <w:szCs w:val="24"/>
+                    </w:rPr>
+                    <w:t>Ulrich Kloodt</w:t>
+                </w:r>
+            </w:p>
+            <w:p>
+                <w:pPr>
+                    <w:pStyle w:val="Kopfzeile"/>
+                    <w:rPr/>
+                </w:pPr>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>
+                        <w:sz w:val="20"/>
+                        <w:szCs w:val="20"/>
+                    </w:rPr>
+                    <w:t>Ostendorpstrasse 36</w:t>
+                </w:r>
+                <w:r>
+                    <w:drawing>
+                        <wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="false" relativeHeight="2" behindDoc="true" locked="false" layoutInCell="true" allowOverlap="true">
+                            <wp:simplePos x="0" y="0"/>
+                            <wp:positionH relativeFrom="column">
+                                <wp:posOffset>5512435</wp:posOffset>
+                            </wp:positionH>
+                            <wp:positionV relativeFrom="paragraph">
+                                <wp:posOffset>-171450</wp:posOffset>
+                            </wp:positionV>
+                            <wp:extent cx="544195" cy="726440"/>
+                            <wp:effectExtent l="0" t="0" r="0" b="0"/>
+                            <wp:wrapSquare wrapText="largest"/>
+                            <wp:docPr id="1" name="Bild1" descr=""/>
+                            <wp:cNvGraphicFramePr>
+                                <a:graphicFrameLocks noChangeAspect="true"/>
+                            </wp:cNvGraphicFramePr>
+                            <a:graphic>
+                                <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+                                    <pic:pic>
+                                        <pic:nvPicPr>
+                                            <pic:cNvPr id="1" name="Bild1" descr=""/>
+                                            <pic:cNvPicPr>
+                                                <a:picLocks noChangeAspect="true" noChangeArrowheads="true"/>
+                                            </pic:cNvPicPr>
+                                        </pic:nvPicPr>
+                                        <pic:blipFill>
+                                            <a:blip r:embed="rId1"/>
+                                            <a:stretch>
+                                                <a:fillRect/>
+                                            </a:stretch>
+                                        </pic:blipFill>
+                                        <pic:spPr bwMode="auto">
+                                            <a:xfrm>
+                                                <a:off x="0" y="0"/>
+                                                <a:ext cx="544195" cy="726440"/>
+                                            </a:xfrm>
+                                            <a:prstGeom prst="rect">
+                                                <a:avLst/>
+                                            </a:prstGeom>
+                                        </pic:spPr>
+                                    </pic:pic>
+                                </a:graphicData>
+                            </a:graphic>
+                        </wp:anchor>
+                    </w:drawing>
+                </w:r>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>
+                        <w:sz w:val="20"/>
+                        <w:szCs w:val="20"/>
+                    </w:rPr>
+                    <w:br/>
+                </w:r>
+                <w:r>
+                    <w:rPr>
+                        <w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:cs="Times New Roman"/>
+                        <w:sz w:val="20"/>
+                        <w:szCs w:val="20"/>
+                    </w:rPr>
+                    <w:t>28203 Bremen</w:t>
+                    <w:br/>
+                    <w:t>0174 2990061</w:t>
+                    <w:br/>
+                    <w:t>ulrich.kloodt@gmx.de</w:t>
+                </w:r>
+            </w:p>
+        </w:tc>
+        <w:tc>
+            <w:tcPr>
+                <w:tcW w:w="7041" w:type="dxa"/>
+                <w:tcBorders>
+                    <w:left w:val="single" w:color="000001" w:sz="2" w:space="0"/>
+                </w:tcBorders>
+                <w:shd w:val="clear" w:fill="FFFFFF"/>
+                <w:tcMar>
+                    <w:top w:w="28" w:type="dxa"/>
+                    <w:left w:w="21" w:type="dxa"/>
+                    <w:bottom w:w="28" w:type="dxa"/>
+                    <w:right w:w="28" w:type="dxa"/>
+                </w:tcMar>
+            </w:tcPr>
+            <w:p>
+                <w:pPr>
+                    <w:pStyle w:val="Tabelleninhalt"/>
+                    <w:rPr/>
+                </w:pPr>
+                <w:r>
+                    <w:rPr/>
+                </w:r>
+            </w:p>
+        </w:tc>
+    </w:tr>
+</w:tbl>

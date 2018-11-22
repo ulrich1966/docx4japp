@@ -69,7 +69,7 @@ public class DocxReadService implements ReadService {
 		}
 		return null;
 	}
-
+	
 	public Map<String, StringBuilder> docxText() throws XPathBinderAssociationIsPartialException, JAXBException {
 		Map<String, StringBuilder> map = new HashMap<>();
 		map.put("head", docx4jService.parseHeaderText());
