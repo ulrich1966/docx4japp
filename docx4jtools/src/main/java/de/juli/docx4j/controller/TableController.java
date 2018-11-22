@@ -2,6 +2,7 @@ package de.juli.docx4j.controller;
 
 import java.util.List;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 
 import org.docx4j.wml.P;
@@ -20,42 +21,47 @@ import com.lowagie.text.pdf.PdfPTable;
 import de.juli.docx4j.model.CellModel;
 import de.juli.docx4j.model.ParagraphModel;
 import de.juli.docx4j.model.RowModel;
-import de.juli.docx4j.model.TableModel;
+import de.juli.docx4j.model.Table;
 import de.juli.docx4j.util.MarshallerUtil;
 
 public class TableController {
 	private static final Logger LOG = LoggerFactory.getLogger(TableController.class);
-	private MarshallerUtil marshallerUtil = new MarshallerUtil(org.docx4j.jaxb.Context.jc);
-	private TableModel model;
+	private Table model;
 	
-	public TableModel createModel(Tbl table) {
-		model = new TableModel(table);
-		List<TblGridCol> cols = table.getTblGrid().getGridCol();
-
-		float[] columnWidths = new float[cols.size()];
-
-		for (int i = 0; i < columnWidths.length; i++) {
-			TblGridCol gridCol = cols.get(i);
-			columnWidths[i] = gridCol.getW().intValue();
-		}
-
-		iterateChild(table);
+	public Table createModel(Tbl table) {
+		MarshallerUtil mu = new MarshallerUtil(org.docx4j.jaxb.Context.jc);
 		
-		System.out.println();
+		model = new Table(table);
 		
-		model.getCols()
-			.forEach(a -> a.getParagraphs()
-					.forEach(b -> b.getRows()
-							.forEach(c ->  getNewPdfCell(c))));
+		//table.getContent().forEach(c -> LOG.info("{}", mu.marschallDocx(c)));
+		table.getContent().forEach(c -> iterateChild(c));
+		
+//		List<TblGridCol> cols = table.getTblGrid().getGridCol();
+//
+//		float[] columnWidths = new float[cols.size()];
+//
+//		for (int i = 0; i < columnWidths.length; i++) {
+//			TblGridCol gridCol = cols.get(i);
+//			columnWidths[i] = gridCol.getW().intValue();
+//		}
+//
+//		
+//		
+//		System.out.println();
+//		
+//		model.getCols()
+//			.forEach(a -> a.getParagraphs()
+//					.forEach(b -> b.getRows()
+//							.forEach(c ->  getNewPdfCell(c))));
 
-		try {
-			Float w = new Float(table.getTblPr().getTblW().getW().intValue());
-			PdfPTable pdfTab = new PdfPTable(cols.size());
-			pdfTab.setTotalWidth(w);
-			pdfTab.setWidths(columnWidths);
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Float w = new Float(table.getTblPr().getTblW().getW().intValue());
+//			PdfPTable pdfTab = new PdfPTable(cols.size());
+//			pdfTab.setTotalWidth(w);
+//			pdfTab.setWidths(columnWidths);
+//		} catch (DocumentException e) {
+//			e.printStackTrace();
+//		}
 
 		return model;
 	}
@@ -128,9 +134,7 @@ public class TableController {
 		
 		if (value instanceof org.docx4j.wml.Text) {
 			org.docx4j.wml.Text txt = (Text) value;
-			if(txt != null && !txt.getValue().isEmpty()) {
-				model.getCurrentCell().getCurrentParagraph().getCurrentRow().setTxt(txt);				
-			}
+			model.getCurrentCell().getCurrentParagraph().getCurrentRow().setTxt(txt);				
 		}
 	}
 } // Class

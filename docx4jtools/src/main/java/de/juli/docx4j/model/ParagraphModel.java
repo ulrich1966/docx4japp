@@ -42,4 +42,10 @@ public class ParagraphModel {
 	public void setCurrentRow(RowModel currentRow) {
 		this.currentRow = currentRow;
 	}
+	
+	public int getCount() {
+		return rows.size();
+	}
+	
+	
 }	

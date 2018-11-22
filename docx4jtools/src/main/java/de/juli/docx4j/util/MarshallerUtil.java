@@ -1,7 +1,6 @@
 package de.juli.docx4j.util;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -9,8 +8,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 
 import org.docx4j.XmlUtils;
-import org.docx4j.jaxb.Context;
-import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.wml.Document;
 
 public class MarshallerUtil {
