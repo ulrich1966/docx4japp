@@ -1,26 +1,9 @@
 package de.juli.docx4j.controller;
 
-import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-
-import org.docx4j.wml.P;
-import org.docx4j.wml.R;
 import org.docx4j.wml.Tbl;
-import org.docx4j.wml.TblGridCol;
-import org.docx4j.wml.Tc;
-import org.docx4j.wml.Text;
-import org.docx4j.wml.Tr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfPTable;
-
-import de.juli.docx4j.model.CellModel;
-import de.juli.docx4j.model.ParagraphModel;
-import de.juli.docx4j.model.RowModel;
 import de.juli.docx4j.model.Table;
 import de.juli.docx4j.util.MarshallerUtil;
 
@@ -30,11 +13,19 @@ public class TableController {
 	
 	public Table createModel(Tbl table) {
 		MarshallerUtil mu = new MarshallerUtil(org.docx4j.jaxb.Context.jc);
+		LOG.info("{}", mu.marschallDocx(table));
 		
 		model = new Table(table);
 		
+		model.getTableRows()
+			.forEach(a -> a.getTableCells()
+					.forEach(b -> b.getParagraphs()
+							.forEach(c -> c.getRuns()
+									.forEach(d -> d.getTxts()
+											.forEach(e -> LOG.info("{}", e.getValue()))))));
+		
 		//table.getContent().forEach(c -> LOG.info("{}", mu.marschallDocx(c)));
-		table.getContent().forEach(c -> iterateChild(c));
+		//table.getContent().forEach(c -> iterateChild(c));
 		
 //		List<TblGridCol> cols = table.getTblGrid().getGridCol();
 //
@@ -66,6 +57,8 @@ public class TableController {
 		return model;
 	}
 
+	/*
+	 * 
 	private Object getNewPdfCell(RowModel rowModel) {
 		if(rowModel.getTxt() != null && !rowModel.getTxt().getValue().isEmpty()) {
 			LOG.info("{}", rowModel.getTxt().getValue());
@@ -137,4 +130,5 @@ public class TableController {
 			model.getCurrentCell().getCurrentParagraph().getCurrentRow().setTxt(txt);				
 		}
 	}
+	 */
 } // Class
