@@ -6,16 +6,16 @@ import java.util.List;
 import org.docx4j.wml.P;
 import org.docx4j.wml.PPr;
 
-public class Paragraph {
+public class TableParagraph {
 	private org.docx4j.wml.P paragraph;
 	private PPr pPr;
-	private List<Run> runs = new ArrayList<>();
+	private List<TableRun> runs = new ArrayList<>();
 
-	public Paragraph(P paragraph) {
+	public TableParagraph(P paragraph) {
 		super();
 		this.paragraph = paragraph;
 		this.pPr = paragraph.getPPr();
-		paragraph.getContent().forEach(c -> runs.add(new Run((org.docx4j.wml.R) c)));
+		paragraph.getContent().forEach(c -> runs.add(new TableRun((org.docx4j.wml.R) c)));
 	}
 
 	public org.docx4j.wml.P getParagraph() {
@@ -26,7 +26,7 @@ public class Paragraph {
 		return pPr;
 	}
 
-	public List<Run> getRuns() {
+	public List<TableRun> getRuns() {
 		return runs;
 	}
 }

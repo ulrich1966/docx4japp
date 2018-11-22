@@ -12,8 +12,6 @@ import com.lowagie.text.pdf.PdfPTable;
 public class Table {
 	private Tbl table;
 	private PdfPTable pdfTab;
-	private List<CellModel> cells;
-	private CellModel currentCell;
 	private TblPr tblPr;
 	private TblGrid tblGrid;
 	private List<TableRow> tableRows = new ArrayList<>();
@@ -31,33 +29,9 @@ public class Table {
 	public void setTable(Tbl table) {
 		this.table = table;
 	}
-	
-	public List<CellModel> getCols() {
-		return cells;
-	}
-	
-	public void addCol(CellModel cell) {
-		if(cells == null) {
-			this.cells = new ArrayList<>();			
-		}
-		this.cells.add(cell);
-		this.currentCell = cell;
-	}
 
 	public PdfPTable getPdfTab() {
 		return pdfTab;
-	}
-
-	public void setPdfTab(PdfPTable pdfTab) {
-		this.pdfTab = pdfTab;
-	}
-
-	public CellModel getCurrentCell() {
-		return currentCell;
-	}
-
-	public List<CellModel> getCells() {
-		return cells;
 	}
 
 	public TblPr getTblPr() {

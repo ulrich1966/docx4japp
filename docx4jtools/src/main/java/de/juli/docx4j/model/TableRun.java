@@ -1,16 +1,17 @@
 package de.juli.docx4j.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.docx4j.wml.R;
 import org.docx4j.wml.RPr;
 
-public class Run {
+public class TableRun {
 	private org.docx4j.wml.R run;
 	private RPr rPr;
-	private List<org.docx4j.wml.Text> txts;
+	private List<org.docx4j.wml.Text> txts = new ArrayList<>();
 
-	public Run(R run) {
+	public TableRun(R run) {
 		super();
 		this.run = run;
 		this.rPr = run.getRPr();
