@@ -1,4 +1,4 @@
-package de.juli.docx4j.pdffactory;
+package de.juli.docx4j.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;

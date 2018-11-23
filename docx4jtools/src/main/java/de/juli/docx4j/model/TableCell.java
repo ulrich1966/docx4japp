@@ -6,7 +6,7 @@ import java.util.List;
 import org.docx4j.wml.Tc;
 import org.docx4j.wml.TcPr;
 
-public class TableCell {
+public class TableCell extends Model  {
 	private org.docx4j.wml.Tc cell;
 	private TcPr tcPr;
 	private List<TableParagraph> paragraphs = new ArrayList<>();

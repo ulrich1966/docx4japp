@@ -6,7 +6,7 @@ import java.util.List;
 import org.docx4j.wml.P;
 import org.docx4j.wml.PPr;
 
-public class TableParagraph {
+public class TableParagraph extends Model  {
 	private org.docx4j.wml.P paragraph;
 	private PPr pPr;
 	private List<TableRun> runs = new ArrayList<>();

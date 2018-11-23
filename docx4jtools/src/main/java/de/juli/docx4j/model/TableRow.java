@@ -8,7 +8,7 @@ import javax.xml.bind.JAXBElement;
 import org.docx4j.wml.Tr;
 import org.docx4j.wml.TrPr;
 
-public class TableRow {
+public class TableRow extends Model {
 	private org.docx4j.wml.Tr row;
 	private List<TableCell> tableCells = new ArrayList<>();
 	private TrPr trPr;
