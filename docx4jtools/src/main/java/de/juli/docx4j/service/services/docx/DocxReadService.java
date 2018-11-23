@@ -17,7 +17,6 @@ import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.parts.Part;
 import org.docx4j.openpackaging.parts.Parts;
 import org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart;
-import org.docx4j.org.apache.poi.poifs.property.Child;
 import org.docx4j.wml.Body;
 import org.docx4j.wml.Document;
 

@@ -11,8 +11,6 @@ import org.docx4j.wml.Text;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.juli.docx4j.util.MarshallerUtil;
-
 public class TableRun extends Model {
 	private static final Logger LOG = LoggerFactory.getLogger(TableRun.class);
 	

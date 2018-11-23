@@ -1,4 +1,4 @@
-package de.juli.docx4j.model;
+package de.juli.docx4j.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,18 +8,20 @@ import org.docx4j.wml.TblGridCol;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.pdf.PdfPTable;
 
-public class PdfTAbleData {
-	private static PdfTAbleData instance;
+import de.juli.docx4j.model.Table;
+
+public class PdfTableData {
+	private static PdfTableData instance;
 	private List<String> runs = new ArrayList<>();
 	private PdfPTable pdfTab;
 
-	private PdfTAbleData() {
+	private PdfTableData() {
 		super();
 	}
 
-	public static PdfTAbleData getInstance() {
+	public static PdfTableData getInstance() {
 		if (instance == null) {
-			instance = new PdfTAbleData();
+			instance = new PdfTableData();
 		}
 		return instance;
 	}
