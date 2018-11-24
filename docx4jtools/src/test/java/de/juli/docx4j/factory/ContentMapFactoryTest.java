@@ -19,16 +19,16 @@ import de.juli.docx4j.util.TestDaten;
 
 public class ContentMapFactoryTest extends ServiceTest {
 	private static final Logger LOG = LoggerFactory.getLogger(ContentMapFactoryTest.class);
-	private boolean execPdf = false;
+	private boolean execPdf = true;
 	
 	@Test
 	public void test() {	
 		try {
 			// LOG.debug("{}", ${file});
-			String[] files = new String[] {"ansch.docx", "converttxt.docx", "headerread.docx"};
+			String[] files = new String[] {"ansch.docx", "converttxt.docx", "headerread.docx", "table.docx"};
 
 			Path target = DOC_ROOT.resolve("test_pdf.pdf");
-			Path docx = DOC_ROOT.resolve(files[2]);
+			Path docx = DOC_ROOT.resolve(files[3]);
 			ContentMapFactory factory = ContentMapFactory.getInstance(docx);
 			Assert.assertNotNull("DocxReadService missing", factory.getDocxReadService());
 			Assert.assertNotNull("PdfCreateService missing", factory.getPdfCreateService());

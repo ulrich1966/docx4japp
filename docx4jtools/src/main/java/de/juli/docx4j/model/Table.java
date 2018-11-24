@@ -10,6 +10,8 @@ import org.docx4j.wml.TblPr;
 
 import com.lowagie.text.pdf.PdfPTable;
 
+import de.juli.docx4j.controller.PdfTableData;
+
 public class Table extends Model {
 	private Tbl table;
 	private PdfPTable pdfTab;
@@ -18,6 +20,7 @@ public class Table extends Model {
 	private List<TblGridCol> colls;
 	private int width;
 	private List<TableRow> tableRows = new ArrayList<>();
+	private PdfTableData data = new PdfTableData();
 	
 	public Table(Tbl table) {
 		this.table = table;
@@ -26,7 +29,11 @@ public class Table extends Model {
 		this.colls = this.tblGrid.getGridCol();
 		this.width = table.getTblPr().getTblW().getW().intValue();
 		table.getContent().forEach(c -> tableRows.add(new TableRow((org.docx4j.wml.Tr) c)));
-		pdfTableData.produceTable(this);
+		data.produceTable(this);
+	}
+
+	public static void start(Tbl tab) {
+		
 	}
 
 	public Tbl getTable() {
@@ -59,4 +66,9 @@ public class Table extends Model {
 	public int getWidth() {
 		return width;
 	}
+
+	public PdfTableData getData() {
+		return data;
+	}
+
 }

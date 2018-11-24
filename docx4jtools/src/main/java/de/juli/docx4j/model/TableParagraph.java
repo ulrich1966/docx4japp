@@ -15,7 +15,11 @@ public class TableParagraph extends Model  {
 		super();
 		this.paragraph = paragraph;
 		this.pPr = paragraph.getPPr();
-		paragraph.getContent().forEach(c -> runs.add(new TableRun((org.docx4j.wml.R) c)));
+		paragraph.getContent().forEach(c -> { 
+			if(c instanceof org.docx4j.wml.R) {
+				runs.add(new TableRun((org.docx4j.wml.R) c)); 				
+			}
+		});
 	}
 
 	public org.docx4j.wml.P getParagraph() {

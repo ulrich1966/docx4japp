@@ -5,5 +5,5 @@ import de.juli.docx4j.util.MarshallerUtil;
 
 public abstract class Model {
 	protected MarshallerUtil mu = new MarshallerUtil(org.docx4j.jaxb.Context.jc);
-	protected PdfTableData pdfTableData = PdfTableData.getInstance();
+	protected PdfTableData data = new PdfTableData();
 }

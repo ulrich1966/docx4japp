@@ -22,14 +22,19 @@ public class TableRun extends Model {
 		super();
 		this.run = run;
 		this.rPr = run.getRPr();
-	
+		
 		run.getContent().forEach(c -> {
 			javax.xml.bind.JAXBElement<?> jaxb = null;
 			try {
 				jaxb = (JAXBElement<?>) c;
 				if(jaxb.getValue() instanceof org.docx4j.wml.Text) {
 					org.docx4j.wml.Text txt = (Text) jaxb.getValue();
-					pdfTableData.addRun(txt.getValue());
+					txts.add(txt);
+				}
+				if(jaxb.getValue() instanceof org.docx4j.wml.Br) {
+					org.docx4j.wml.Text txt = new Text();
+					txt.setValue("\n");
+					txts.add(txt);
 				}
 			} catch (java.lang.ClassCastException e) {
 				LOG.error("{}", e.getMessage());

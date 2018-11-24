@@ -50,20 +50,27 @@ public class DocxReadService implements ReadService {
 	}
 
 	public List<Object> readHeader() throws Exception {
+		org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart header = null;
 		if(parts == null) {
 			read();
 		}
-		org.docx4j.openpackaging.parts.WordprocessingML.HeaderPart header = (HeaderPart) docx4jService.getParts().get(PartKey.getPartName(PartKey.HEADER1));
-		return header.getContent();
+		header = (HeaderPart) docx4jService.getParts().get(PartKey.getPartName(PartKey.HEADER1));
+		if(header != null) {
+			return header.getContent();						
+		}
+		return null;
 	}
 
 	public List<Object> readBody() throws Exception {
 		if(parts == null) {
 			read();
 		}
-		Body body = docx4jService.getBody();
 		// same as: docx4jService.getJaxbElement()
-		return body.getContent();
+		Body body = docx4jService.getBody();
+		if(body != null) {
+			return body.getContent();
+		}
+		return null;		
 	}
 
 	public String marschallDocx() throws Docx4JException {

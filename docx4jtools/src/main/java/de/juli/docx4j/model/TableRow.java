@@ -20,7 +20,7 @@ public class TableRow extends Model {
 		row.getContent().forEach(c -> {
 			if(c instanceof javax.xml.bind.JAXBElement) {
 				javax.xml.bind.JAXBElement<?> elem = (JAXBElement<?>) c;
-				tableCells.add(new TableCell((org.docx4j.wml.Tc) elem.getValue()));				
+				tableCells.add(new TableCell((org.docx4j.wml.Tc) elem.getValue()));	
 			}
 		});
 	}
